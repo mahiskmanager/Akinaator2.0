@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gemini-2.5-pro",
         messages: [
           { role: "system", content: "Eres Akinator2.0 IA Suprema misteriosa y divertida." },
           { role: "user", content: message }
