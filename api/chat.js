@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
         model: 'gemini-2.5-pro',
@@ -29,10 +29,12 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data });
     }
 
-    // Gemini devuelve "output_text" como la respuesta principal
-    return res.status(200).json({
-      reply: data.output_text || 'Sin respuesta'
-    });
+    // Extraer texto de Gemini
+    let replyText = data.output_text || 
+                    (data.output?.[0]?.content?.[0]?.text) || 
+                    "Sin respuesta";
+
+    return res.status(200).json({ reply: replyText });
 
   } catch (error) {
     return res.status(500).json({ error: error.message });
