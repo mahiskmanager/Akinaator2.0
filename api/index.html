@@ -4,69 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akinator 2.0 - IA Suprema</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#4a00e0,#8e2de2);
-    color:#fff;
-    margin:0;
-    padding:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    min-height:100vh;
-  }
-  h1{
-    margin-top:40px;
-    font-size:2.8em;
-    text-shadow:2px 2px 8px #000;
-  }
-  #chatContainer{
-    width:100%;
-    max-width:500px;
-    background:rgba(0,0,0,0.4);
-    margin-top:20px;
-    border-radius:15px;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-  }
-  #messages{
-    flex:1;
-    overflow-y:auto;
-    margin-bottom:15px;
-    max-height:400px;
-  }
-  .message{
-    margin:5px 0;
-    padding:10px;
-    border-radius:10px;
-    max-width:80%;
-    word-wrap:break-word;
-    opacity:0;
-    animation:fadeIn 0.5s forwards;
-  }
-  .userMessage{background:#4caf50;align-self:flex-end;}
-  .botMessage{background:#2196f3;align-self:flex-start;}
-  #inputContainer{display:flex;gap:10px;}
-  input{flex:1;padding:10px;border-radius:10px;border:none;font-size:1em;}
-  button{
-    padding:10px 20px;
-    border:none;
-    border-radius:10px;
-    background:#ff5722;
-    color:#fff;
-    cursor:pointer;
-    font-size:1em;
-    transition:all 0.3s ease;
-  }
-  button:hover{background:#e64a19;transform:scale(1.05);}
-  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="particles-js"></div>
+
+<div id="mascota-container">
+  <img id="mascota" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Mascota interactiva">
+</div>
+
 <h1>Akinator 2.0 - IA Suprema</h1>
+
 <div id="chatContainer">
   <div id="messages"></div>
   <div id="inputContainer">
@@ -74,50 +22,27 @@
     <button onclick="sendMessage()">Enviar</button>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="script.js"></script>
 <script>
-async function sendMessage(){
-  const input=document.getElementById('userInput');
-  const messagesDiv=document.getElementById('messages');
-  const text=input.value.trim();
-  if(!text) return;
-
-  const userMsgDiv=document.createElement('div');
-  userMsgDiv.classList.add('message','userMessage');
-  userMsgDiv.innerText=text;
-  messagesDiv.appendChild(userMsgDiv);
-  input.value='';
-  messagesDiv.scrollTop=messagesDiv.scrollHeight;
-
-  try{
-    const res=await fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:text})
-    });
-
-    const data=await res.json();
-
-    // Extraer texto de manera robusta
-    let reply='';
-    if(data.reply) reply=data.reply;
-    else if(data.output_text) reply=data.output_text;
-    else if(data.output?.[0]?.content?.[0]?.text) reply=data.output[0].content[0].text;
-    else reply=JSON.stringify(data);
-
-    const botMsgDiv=document.createElement('div');
-    botMsgDiv.classList.add('message','botMessage');
-    botMsgDiv.innerText=reply;
-    messagesDiv.appendChild(botMsgDiv);
-    messagesDiv.scrollTop=messagesDiv.scrollHeight;
-
-  }catch(err){
-    const errDiv=document.createElement('div');
-    errDiv.classList.add('message','botMessage');
-    errDiv.innerText="Error conectando con el servidor";
-    messagesDiv.appendChild(errDiv);
-    messagesDiv.scrollTop=messagesDiv.scrollHeight;
-  }
-}
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80 },
+    "color": { "value": "#ffffff" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.5 },
+    "size": { "value": 3 },
+    "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+    "move": { "enable": true, "speed": 2, "direction": "none", "out_mode": "bounce" }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" } }
+  },
+  "retina_detect": true
+});
 </script>
 </body>
 </html>
+
