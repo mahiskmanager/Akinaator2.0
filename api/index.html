@@ -5,40 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akinator 2.0 - IA Suprema</title>
 <style>
+  /* FONDO Y TIPOGRAFÍA */
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #4a00e0, #8e2de2);
     color: #fff;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 50px;
     min-height: 100vh;
-    margin: 0;
+    overflow: hidden;
   }
 
   h1 {
-    font-size: 2.5em;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 5px #000;
+    margin-top: 40px;
+    font-size: 2.8em;
+    text-shadow: 2px 2px 8px #000;
+    animation: fadeIn 2s ease-in-out;
   }
 
+  /* CONTENEDOR DEL CHAT */
   #chatContainer {
     width: 100%;
     max-width: 500px;
     background: rgba(0,0,0,0.4);
-    padding: 20px;
+    margin-top: 20px;
     border-radius: 15px;
+    padding: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
     display: flex;
     flex-direction: column;
+    animation: slideUp 1s ease-out;
   }
 
+  /* MENSAJES */
   #messages {
     flex: 1;
     overflow-y: auto;
     margin-bottom: 15px;
+    max-height: 400px;
   }
 
   .message {
@@ -46,6 +54,9 @@
     padding: 10px;
     border-radius: 10px;
     max-width: 80%;
+    word-wrap: break-word;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
   }
 
   .userMessage {
@@ -58,6 +69,7 @@
     align-self: flex-start;
   }
 
+  /* INPUT */
   #inputContainer {
     display: flex;
     gap: 10px;
@@ -79,10 +91,23 @@
     color: #fff;
     cursor: pointer;
     font-size: 1em;
+    transition: all 0.3s ease;
   }
 
   button:hover {
     background: #e64a19;
+    transform: scale(1.05);
+  }
+
+  /* ANIMACIONES */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 </style>
 </head>
@@ -122,9 +147,18 @@ async function sendMessage() {
 
     const data = await res.json();
 
+    let reply = data.reply;
+
+    // Si devuelve un objeto, extraer texto
+    if (typeof reply === 'object') {
+      reply = reply.output_text || 
+              (reply.output?.[0]?.content?.[0]?.text) || 
+              JSON.stringify(reply);
+    }
+
     const botMsgDiv = document.createElement('div');
     botMsgDiv.classList.add('message', 'botMessage');
-    botMsgDiv.innerText = data.reply || data.error || "Sin respuesta";
+    botMsgDiv.innerText = reply;
     messagesDiv.appendChild(botMsgDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
