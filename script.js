@@ -1,4 +1,3 @@
-
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const chat = document.getElementById("chat");
@@ -7,8 +6,7 @@ async function sendMessage() {
 
   chat.innerHTML += `<div><strong>Tú:</strong> ${input.value}</div>`;
 
-  const response = await fetch(""/api/ask"
-", {
+  const response = await fetch("/api/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: input.value })
