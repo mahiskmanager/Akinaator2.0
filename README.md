@@ -1,1 +1,0 @@
-# Akinaator2.0
