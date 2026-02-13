@@ -29,6 +29,7 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data });
     }
 
+    // Gemini devuelve "output_text" como la respuesta principal
     return res.status(200).json({
       reply: data.output_text || 'Sin respuesta'
     });
