@@ -9,11 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/api/ask", async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   const userMessage = req.body.message;
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch(""/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
