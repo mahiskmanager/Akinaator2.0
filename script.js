@@ -7,7 +7,8 @@ async function sendMessage() {
 
   chat.innerHTML += `<div><strong>Tú:</strong> ${input.value}</div>`;
 
-  const response = await fetch("http://localhost:3000/api/ask", {
+  const response = await fetch(""/api/ask"
+", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: input.value })
