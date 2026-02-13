@@ -29,10 +29,16 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data });
     }
 
-    // Extraer texto de Gemini
-    let replyText = data.output_text || 
-                    (data.output?.[0]?.content?.[0]?.text) || 
-                    "Sin respuesta";
+    // Función recursiva para extraer todo el texto del objeto
+    function extractText(obj) {
+      if (!obj) return '';
+      if (typeof obj === 'string') return obj;
+      if (Array.isArray(obj)) return obj.map(extractText).join(' ');
+      if (typeof obj === 'object') return Object.values(obj).map(extractText).join(' ');
+      return '';
+    }
+
+    const replyText = extractText(data) || 'Sin respuesta';
 
     return res.status(200).json({ reply: replyText });
 
