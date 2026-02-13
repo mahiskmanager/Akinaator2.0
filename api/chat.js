@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No message provided" });
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.vercel.com/v1/integrations/deploy/prj_WRr1BaBTP43z1L17OE4BrGeO01an/t3ximFacUY", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
