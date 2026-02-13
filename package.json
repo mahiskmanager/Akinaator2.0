@@ -1,0 +1,9 @@
+
+{
+  "name": "akinator2-pro-advanced",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {}
+}
