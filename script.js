@@ -6,7 +6,7 @@ const response = await fetch('https://cloud.blackbox.ai/api/tasks', {
   },
   body: JSON.stringify({
     prompt: 'Add Stripe Payment Integration',
-    repoUrl: 'https://github.com/mahiskmanager/Twins-Mint-rpg', // SET YOUR REPO
+    repoUrl: 'https://github.com/mahiskmanager/Akinaator2.0.git', // SET YOUR REPO
     selectedAgent: 'gemini', 
     selectedModel: 'gemini-2.5-pro' 
   })
